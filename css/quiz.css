@@ -1,0 +1,11 @@
+.quiz-shell { display: grid; gap: 18px; }
+.quiz-header { align-items: center; }
+.quiz-card, .result-card { display: grid; gap: 16px; padding: 24px; }
+.large-display { margin: 12px 0; font-size: clamp(2rem, 8vw, 3rem); }
+.answer-buttons { flex-wrap: wrap; }
+.answer-button { min-width: 88px; padding: 14px 18px; background: rgba(255, 217, 111, 0.25); color: #614a0d; }
+.answer-button.muted { background: #fff; }
+.selection-card .character-buttons { justify-content: center; }
+.score-pill { min-width: 92px; }
+.result-card { justify-items: center; text-align: center; }
+.result-stars { font-size: clamp(2.2rem, 8vw, 3.4rem); }

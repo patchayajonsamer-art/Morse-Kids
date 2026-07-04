@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body data-page="login">
+  <main class="page-shell login-shell morse-bg">
+    <section class="login-card">
+      <div class="login-copy">
+        <p class="eyebrow">ยินดีต้อนรับกลับมา</p>
+        <h1>พร้อมเรียนรหัสมอร์สกันไหม</h1>
+        <p class="supporting-text">ใส่ชื่อเล่นเพื่อบันทึกความก้าวหน้า ดาวสะสม และการตั้งค่าในระบบ</p>
+        <form id="loginForm" class="login-form">
+          <label class="sr-only" for="nicknameInput">ชื่อเล่น</label>
+          <input id="nicknameInput" name="nickname" class="nickname-input" type="text" maxlength="24" placeholder="ใส่ชื่อเล่นของน้อง" required>
+          <button class="primary-button" type="submit">Sign In</button>
+        </form>
+        <p id="loginStatus" class="status-text" aria-live="polite"></p>
+      </div>
+      <div class="cat-guide cat-guide-wave" aria-hidden="true">
+        <span class="cat-ears"></span>
+        <span class="cat-face"></span>
+        <span class="cat-glasses"></span>
+        <span class="cat-bow"></span>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

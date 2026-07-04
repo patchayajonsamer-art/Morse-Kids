@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ด่านเรียน | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lessons.css">
+</head>
+<body data-page="lessons">
+  <main class="page-shell lessons-shell morse-bg">
+    <header class="top-bar compact-top-bar">
+      <div class="profile-chip">
+        <div class="cat-guide cat-guide-mini" aria-hidden="true">
+          <span class="cat-ears"></span>
+          <span class="cat-face"></span>
+          <span class="cat-glasses"></span>
+          <span class="cat-bow"></span>
+        </div>
+        <div>
+          <p id="headerNickname" class="chip-title">-</p>
+          <p id="headerEmail" class="chip-subtitle">-</p>
+        </div>
+      </div>
+      <div class="meta-strip">
+        <span>ด่าน <strong id="headerLevel">1</strong></span>
+        <span>ดาว <strong id="headerStars">0</strong></span>
+      </div>
+      <div class="top-actions">
+        <a class="icon-button" href="settings.html" aria-label="ตั้งค่า">⚙️</a>
+        <a class="icon-button" href="profile.html" aria-label="โปรไฟล์">👤</a>
+        <button id="logoutButton" class="icon-button logout-button" type="button" aria-label="ออกจากระบบ">🚪</button>
+      </div>
+    </header>
+    <button id="analyticsButton" class="progress-panel" type="button">
+      <div class="progress-copy">
+        <p>ความก้าวหน้าการเรียน</p>
+        <strong id="progressSummary">ผ่าน 0 ด่าน · ดาว 0 · คะแนน 0</strong>
+      </div>
+      <div class="progress-bar-track" aria-hidden="true"><span id="progressBarFill" class="progress-bar-fill"></span></div>
+      <span class="progress-hint">แตะเพื่อดูข้อมูลเชิงลึก</span>
+    </button>
+    <section class="lesson-group">
+      <div class="section-heading">
+        <h1>ด่านภาษาไทย</h1>
+        <p>ด่าน 1-17 เป็นภาษาหลักของระบบ</p>
+      </div>
+      <div id="thaiLessons" class="lesson-grid"></div>
+    </section>
+    <section class="lesson-group optional-group">
+      <div class="section-heading">
+        <h2>ด่านภาษาอังกฤษเสริม</h2>
+        <p>ด่าน 18-23 สำหรับฝึกตัวพิมพ์ใหญ่และตัวพิมพ์เล็ก</p>
+      </div>
+      <div id="englishLessons" class="lesson-grid"></div>
+    </section>
+  </main>
+  <dialog id="analyticsDialog" class="analytics-dialog">
+    <div class="dialog-card">
+      <div class="dialog-header">
+        <h2>สรุปคะแนนรายด่าน</h2>
+        <button id="closeAnalytics" class="icon-button" type="button" aria-label="ปิด">✕</button>
+      </div>
+      <div id="analyticsStats" class="analytics-stats"></div>
+      <div id="analyticsLessons" class="analytics-lessons"></div>
+    </div>
+  </dialog>
+  <script type="module" src="js/lessons.js"></script>
+</body>
+</html>

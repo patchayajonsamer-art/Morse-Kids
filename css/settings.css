@@ -1,0 +1,6 @@
+.settings-shell { display: grid; gap: 18px; }
+.settings-card { display: grid; gap: 16px; }
+.setting-control, .toggle-control { display: grid; gap: 10px; padding: 18px; border-radius: 22px; background: rgba(147, 199, 255, 0.12); }
+.setting-control input[type='range'] { width: 100%; accent-color: #63c779; }
+.toggle-control { grid-template-columns: 1fr auto; align-items: center; }
+.toggle-control input[type='checkbox'] { width: 22px; height: 22px; accent-color: #63c779; }
