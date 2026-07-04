@@ -1,0 +1,38 @@
+.lessons-shell, .lesson-detail-shell, .profile-shell { display: grid; gap: 18px; }
+.compact-top-bar { padding: 14px 16px; border-radius: var(--radius-lg); background: rgba(255, 255, 255, 0.92); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.profile-chip { display: flex; align-items: center; gap: 12px; }
+.chip-title, .section-heading h1, .section-heading h2, .subpage-meta h1, .profile-card h1 { margin: 0; }
+.meta-strip { padding: 10px 14px; border-radius: 999px; background: rgba(255, 217, 111, 0.2); }
+.progress-panel { width: 100%; text-align: left; padding: 18px 20px; border-radius: var(--radius-lg); }
+.progress-panel strong { display: block; margin-top: 2px; }
+.progress-bar-track { width: 100%; height: 12px; border-radius: 999px; background: rgba(147, 199, 255, 0.3); overflow: hidden; margin: 12px 0 8px; }
+.progress-bar-fill { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ffd96f, #86d293, #93c7ff); border-radius: inherit; }
+.lesson-group { display: grid; gap: 12px; }
+.lesson-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.lesson-card.locked { opacity: 0.72; }
+.lesson-card-header, .analytics-item, .analytics-stats, .character-stage, .profile-details { display: grid; gap: 12px; }
+.lesson-card-header { grid-template-columns: auto 1fr; align-items: start; }
+.lesson-card-number { width: 52px; height: 52px; border-radius: 18px; background: rgba(255, 182, 207, 0.25); display: grid; place-items: center; font-weight: 700; }
+.lesson-card h3, .lesson-card p { margin: 0; }
+.lesson-card-footer { justify-content: space-between; margin-top: 14px; }
+.lesson-card-tag { padding: 8px 12px; }
+.lesson-action { padding: 10px 14px; background: rgba(134, 210, 147, 0.18); color: #19502a; }
+.lesson-action[aria-disabled='true'] { pointer-events: none; background: rgba(90, 117, 146, 0.12); color: var(--text-soft); }
+.analytics-dialog { border: 0; background: transparent; padding: 0; width: min(720px, calc(100% - 24px)); }
+.analytics-dialog::backdrop { background: rgba(24, 40, 63, 0.35); }
+.dialog-card { padding: 22px; }
+.analytics-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.analytics-stat, .analytics-item, .profile-details div { padding: 14px; border-radius: 18px; background: rgba(147, 199, 255, 0.12); }
+.analytics-lessons { display: grid; gap: 10px; margin-top: 16px; }
+.subpage-header { padding: 8px 0; }
+.character-stage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.character-card, .practice-panel { padding: 24px; }
+.character-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.character-chip { padding: 10px 16px; border: 1px solid rgba(64, 100, 139, 0.14); background: #fff; }
+.character-chip.active, .character-chip.selected { background: rgba(255, 182, 207, 0.28); color: #7a3152; }
+.profile-card { display: grid; justify-items: center; gap: 16px; }
+.avatar-frame { display: grid; justify-items: center; gap: 10px; cursor: pointer; }
+.avatar-frame img, .avatar-frame .cat-guide-profile { width: 120px; height: 120px; border-radius: 50%; background: #fff; border: 4px solid rgba(147, 199, 255, 0.45); object-fit: cover; padding: 12px; }
+.profile-details { width: min(540px, 100%); }
+.profile-details div { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+@media (max-width: 768px) { .compact-top-bar, .analytics-stats, .character-stage { grid-template-columns: 1fr; } .meta-strip, .top-actions { justify-content: flex-start; } }

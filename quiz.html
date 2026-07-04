@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบทดสอบ | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body data-page="quiz">
+  <main class="page-shell quiz-shell morse-bg">
+    <header class="subpage-header quiz-header">
+      <a class="secondary-button" href="lessons.html">← กลับไปหน้าด่าน</a>
+      <div>
+        <p id="quizBadge" class="eyebrow">ด่านที่ 1</p>
+        <h1 id="quizTitle">แบบทดสอบรหัสมอร์ส</h1>
+      </div>
+      <div id="quizProgress" class="score-pill">ข้อ 1/5</div>
+    </header>
+    <section id="quizCard" class="quiz-card">
+      <div class="question-card">
+        <p class="eyebrow">ฟังและดูรหัสมอร์ส</p>
+        <div id="quizMorse" class="morse-display large-display">· −</div>
+        <button id="replayQuestion" class="secondary-button" type="button">เล่นอีกครั้ง</button>
+      </div>
+      <div class="answer-card">
+        <h2>พิมพ์รหัสมอร์สของน้อง</h2>
+        <div id="answerPreview" class="answer-preview">ยังไม่ได้พิมพ์</div>
+        <div class="answer-buttons">
+          <button id="dotButton" class="answer-button" type="button">·</button>
+          <button id="dashButton" class="answer-button" type="button">−</button>
+          <button id="spaceButton" class="answer-button" type="button">เว้นวรรค</button>
+          <button id="clearButton" class="answer-button muted" type="button">ล้าง</button>
+        </div>
+      </div>
+      <div class="selection-card">
+        <h2>เลือกตัวอักษรที่ตรงกัน</h2>
+        <div id="characterOptions" class="character-buttons"></div>
+      </div>
+      <div class="quiz-actions"><button id="submitAnswer" class="primary-button" type="button">ตรวจคำตอบ</button></div>
+      <p id="quizFeedback" class="status-text" aria-live="polite"></p>
+    </section>
+    <section id="resultCard" class="result-card hidden">
+      <div class="cat-guide cat-guide-celebrate" aria-hidden="true">
+        <span class="cat-ears"></span><span class="cat-face"></span><span class="cat-glasses"></span><span class="cat-bow"></span>
+      </div>
+      <h2 id="resultHeadline">เก่งมากเลยน้า!</h2>
+      <div id="resultStars" class="result-stars">⭐⭐⭐</div>
+      <p id="resultSummary" class="supporting-text"></p>
+      <div class="quiz-actions result-actions">
+        <a id="retryLesson" class="secondary-button" href="quiz.html">ลองอีกครั้ง</a>
+        <a class="primary-button" href="lessons.html">กลับไปหน้าด่าน</a>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/quiz.js"></script>
+</body>
+</html>

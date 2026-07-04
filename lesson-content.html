@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทเรียน | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lessons.css">
+</head>
+<body data-page="lesson-content">
+  <main class="page-shell lesson-detail-shell morse-bg">
+    <header class="subpage-header">
+      <a class="secondary-button" href="lessons.html">← กลับไปหน้าด่าน</a>
+      <div class="subpage-meta">
+        <p id="lessonBadge" class="eyebrow">ด่านที่ 1</p>
+        <h1 id="lessonTitle">กำลังโหลดบทเรียน...</h1>
+      </div>
+      <a id="goToQuizButton" class="primary-button" href="quiz.html">เริ่มแบบทดสอบ</a>
+    </header>
+    <section class="character-stage">
+      <div class="character-card">
+        <p class="eyebrow">ตัวอักษรประจำบท</p>
+        <div id="lessonCharacter" class="selected-character">ก</div>
+        <div id="lessonMorse" class="morse-display">· −</div>
+      </div>
+      <div class="practice-panel">
+        <h2>กดปุ่มเพื่อฝึกทันที</h2>
+        <div id="characterButtons" class="character-buttons"></div>
+        <div class="nav-row">
+          <button id="prevCharacter" class="secondary-button" type="button">← ก่อนหน้า</button>
+          <button id="replayMorse" class="secondary-button" type="button">เล่นรหัสมอร์ส</button>
+          <button id="nextCharacter" class="secondary-button" type="button">ถัดไป →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/lessons.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตั้งค่า | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body data-page="settings">
+  <main class="page-shell settings-shell morse-bg">
+    <header class="subpage-header">
+      <a class="secondary-button" href="lessons.html">← กลับไปหน้าด่าน</a>
+      <div>
+        <p class="eyebrow">ปรับให้เหมาะกับน้อง</p>
+        <h1>ตั้งค่าการสั่นและเสียง</h1>
+      </div>
+      <div class="cat-guide cat-guide-mini" aria-hidden="true">
+        <span class="cat-ears"></span><span class="cat-face"></span><span class="cat-glasses"></span><span class="cat-bow"></span>
+      </div>
+    </header>
+    <section class="settings-card">
+      <label class="setting-control" for="vibrationSpeed"><span>ความเร็วการสั่น</span><strong id="vibrationSpeedValue">250 ms</strong><input id="vibrationSpeed" type="range" min="100" max="500" step="25"></label>
+      <label class="setting-control" for="soundFrequency"><span>ความถี่เสียง</span><strong id="soundFrequencyValue">700 Hz</strong><input id="soundFrequency" type="range" min="400" max="1000" step="25"></label>
+      <label class="toggle-control" for="soundEnabled"><span>เปิดเสียง</span><input id="soundEnabled" type="checkbox"></label>
+      <label class="toggle-control" for="vibrationEnabled"><span>เปิดการสั่น</span><input id="vibrationEnabled" type="checkbox"></label>
+      <p id="settingsStatus" class="status-text" aria-live="polite"></p>
+    </section>
+  </main>
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โปรไฟล์ | Morse Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lessons.css">
+</head>
+<body data-page="profile">
+  <main class="page-shell profile-shell morse-bg">
+    <header class="subpage-header">
+      <a class="secondary-button" href="lessons.html">← กลับไปหน้าด่าน</a>
+      <div><p class="eyebrow">ข้อมูลประจำตัว</p><h1>โปรไฟล์ของน้อง</h1></div>
+      <button id="profileLogout" class="icon-button logout-button" type="button" aria-label="ออกจากระบบ">🚪</button>
+    </header>
+    <section class="profile-card">
+      <label class="avatar-frame" for="avatarUpload">
+        <img id="profileAvatar" alt="รูปโปรไฟล์" hidden>
+        <div id="defaultAvatar" class="cat-guide cat-guide-profile" aria-hidden="true">
+          <span class="cat-ears"></span><span class="cat-face"></span><span class="cat-glasses"></span><span class="cat-bow"></span>
+        </div>
+        <span>อัปโหลดรูปโปรไฟล์</span>
+      </label>
+      <input id="avatarUpload" type="file" accept="image/*" hidden>
+      <div class="profile-details">
+        <div><span>ชื่อเล่น</span><strong id="profileNickname">-</strong></div>
+        <div><span>อีเมล</span><strong id="profileEmail">-</strong></div>
+        <div><span>ด่านปัจจุบัน</span><strong id="profileLesson">1</strong></div>
+        <div><span>ดาวรวม</span><strong id="profileStars">0</strong></div>
+        <div><span>ความสำเร็จ</span><strong id="profileSuccess">0%</strong></div>
+      </div>
+      <div class="quiz-actions result-actions"><button id="saveAvatar" class="secondary-button" type="button">บันทึกรูป</button><a class="primary-button" href="lessons.html">กลับไปหน้าด่าน</a></div>
+      <p id="profileStatus" class="status-text" aria-live="polite"></p>
+    </section>
+  </main>
+  <script type="module" src="js/lessons.js"></script>
+</body>
+</html>
