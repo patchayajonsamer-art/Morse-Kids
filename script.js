@@ -555,10 +555,6 @@ function getUnlockedLessonCount() {
     return Math.min(progress.completedLessonIds.length + 1, LESSONS.length);
 }
 
-function isLessonUnlocked(index) {
-    return index < getUnlockedLessonCount();
-}
-
 function getFirstUnlockedLesson() {
     return LESSONS[Math.max(0, getUnlockedLessonCount() - 1)] || LESSONS[0];
 }
