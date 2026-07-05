@@ -63,39 +63,30 @@ function playTone(startTime, duration, frequency = 700) {
 }
 
 /**
- * Play a morse string and optionally animate the visual shapes.
+ * Play a morse string.
  * @param {string} morse  e.g. ".-."
- * @param {Function} [onSymbol]  called with (symbolIndex, symbol, timeMs) for animation
  * @returns {Promise<void>} resolves when playback is done
  */
-function playMorse(morse, onSymbol) {
+function playMorse(morse) {
     const dotMs  = 120;   // duration of a dot  in ms
     const dashMs = 360;   // duration of a dash in ms
     const gapMs  = 100;   // gap between symbols
     const freq   = 700;
 
-    const ctx   = getAudioContext();
-    const now   = ctx.currentTime;
-    let   t     = now;
-    const totalDuration = morse.split('').reduce((acc, s) => {
-        acc += (s === '.' ? dotMs : dashMs) + gapMs;
-        return acc;
-    }, 0);
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    let   t   = now;
+    let   totalDuration = 0;
 
-    morse.split('').forEach((symbol, i) => {
+    morse.split('').forEach(symbol => {
         const dur = symbol === '.' ? dotMs / 1000 : dashMs / 1000;
-        const delay = (t - now) * 1000;
-
-        if (onSymbol) {
-            setTimeout(() => onSymbol(i, symbol), delay);
-        }
-
         playTone(t, dur, freq);
         t += dur + gapMs / 1000;
+        totalDuration += (symbol === '.' ? dotMs : dashMs) + gapMs;
     });
 
     return new Promise(resolve => {
-        setTimeout(resolve, totalDuration + 50);
+        setTimeout(resolve, totalDuration);
     });
 }
 
@@ -177,9 +168,9 @@ async function playLearnMorse() {
     btn.classList.add('playing');
     btn.textContent = '🎵 Playing…';
 
-    await playMorse(morse, (i, sym) => {
-        animateVisual('learnVisual', morse);
-    });
+    // Animate visual shapes in sync with audio
+    animateVisual('learnVisual', morse);
+    await playMorse(morse);
 
     btn.disabled = false;
     btn.classList.remove('playing');
@@ -240,9 +231,6 @@ function nextQuestion() {
         btn.addEventListener('click', () => answerQuiz(opt, btn));
         grid.appendChild(btn);
     });
-
-    // Auto-play the character sound
-    playMorse(MORSE[ch]);
 }
 
 function answerQuiz(chosen, btnEl) {

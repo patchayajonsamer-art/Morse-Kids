@@ -28,7 +28,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Segoe UI', 'Trebuchet MS', 'Helvetica Neue', Arial, sans-serif;
     background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
     min-height: 100vh;
     color: var(--text-light);
