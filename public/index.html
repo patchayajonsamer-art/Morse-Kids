@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱 Morse-Kids — Learn Morse Code!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated cats background -->
+    <div class="bg-cats" aria-hidden="true">
+        <span>🐱</span><span>🐾</span><span>🐱</span><span>🐾</span>
+        <span>🐱</span><span>🐾</span><span>🐱</span><span>🐾</span>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="cat-icon">🐱</div>
+            <h1>Morse-Kids</h1>
+            <p class="subtitle">Learn Morse Code the Fun Way!</p>
+            <div class="paw-row" aria-hidden="true">🐾🐾🐾🐾🐾</div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs" role="tablist">
+            <button class="tab-btn active" data-tab="learn" role="tab" aria-selected="true">
+                📚 Learn
+            </button>
+            <button class="tab-btn" data-tab="quiz" role="tab" aria-selected="false">
+                🎮 Quiz
+            </button>
+            <button class="tab-btn" data-tab="chart" role="tab" aria-selected="false">
+                📋 Chart
+            </button>
+        </nav>
+
+        <!-- ===================== LEARN SECTION ===================== -->
+        <section id="learn" class="tab-panel active" role="tabpanel">
+            <div class="panel-content">
+                <h2>🎓 Pick a character to learn!</h2>
+
+                <div class="category-bar">
+                    <button class="cat-btn active" data-cat="letters">🔤 A–Z</button>
+                    <button class="cat-btn" data-cat="numbers">🔢 0–9</button>
+                </div>
+
+                <div class="letter-grid" id="learnGrid"></div>
+
+                <div class="display-card" id="learnDisplay">
+                    <div class="char-big" id="learnChar">?</div>
+                    <div class="morse-symbols" id="learnMorse">
+                        <span class="hint">Select a character above</span>
+                    </div>
+                    <div class="morse-visual" id="learnVisual"></div>
+                    <button class="play-btn" id="learnPlayBtn" disabled>
+                        🔊 Play Sound
+                    </button>
+                </div>
+
+                <div class="tip-box">
+                    💡 <strong>Tip:</strong> A <em>dot (·)</em> is a short beep, a <em>dash (−)</em> is a long beep!
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== QUIZ SECTION ===================== -->
+        <section id="quiz" class="tab-panel" role="tabpanel">
+            <div class="panel-content">
+                <h2>🎮 Quiz Mode</h2>
+
+                <div class="score-bar">
+                    <div class="score-item">
+                        <span class="score-label">Score</span>
+                        <span class="score-value" id="quizScore">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Best</span>
+                        <span class="score-value" id="quizBest">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Q #</span>
+                        <span class="score-value" id="quizNum">0</span>
+                    </div>
+                </div>
+
+                <div class="quiz-card" id="quizCard">
+                    <p class="quiz-prompt">What is the Morse code for:</p>
+                    <div class="quiz-char" id="quizChar">?</div>
+                    <button class="play-btn quiz-play" id="quizPlayBtn" disabled>
+                        🔊 Hear the Morse Code
+                    </button>
+                </div>
+
+                <p class="answer-prompt">Choose the correct Morse code:</p>
+                <div class="options-grid" id="optionsGrid"></div>
+
+                <div class="result-display" id="resultDisplay"></div>
+
+                <button class="next-btn" id="nextBtn" style="display:none">
+                    Next Question ➡️
+                </button>
+
+                <button class="start-btn" id="startBtn">
+                    🐱 Start Quiz!
+                </button>
+            </div>
+        </section>
+
+        <!-- ===================== CHART SECTION ===================== -->
+        <section id="chart" class="tab-panel" role="tabpanel">
+            <div class="panel-content">
+                <h2>📋 Full Morse Code Chart</h2>
+                <p class="chart-intro">All letters A–Z and numbers 0–9</p>
+                <div class="chart-grid" id="chartGrid"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
