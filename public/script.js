@@ -298,7 +298,7 @@ function moveCharacter(direction) {
         completeCurrentLesson();
         const nextLesson = getLessonByIndex(getLessonIndex(currentLessonId) + 1);
 
-        if (nextLesson && isLessonUnlocked(getLessonIndex(nextLesson.id))) {
+        if (nextLesson) {
             setCurrentLesson(nextLesson.id, 0);
         } else {
             currentCharacterIndex = 0;
@@ -462,7 +462,9 @@ function playTone(duration = 100) {
     if (!settings.sound) return;
 
     try {
-        audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+        const context = ensureAudioContext();
+        if (!context) return;
+
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
 
@@ -478,6 +480,21 @@ function playTone(duration = 100) {
     } catch (error) {
         console.log('Audio not supported', error);
     }
+}
+
+function ensureAudioContext() {
+    if (audioContext) {
+        if (audioContext.state === 'suspended') {
+            audioContext.resume?.();
+        }
+        return audioContext;
+    }
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+
+    audioContext = new AudioContextClass();
+    return audioContext;
 }
 
 function vibrate(duration) {
