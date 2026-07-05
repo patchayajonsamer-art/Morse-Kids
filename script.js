@@ -484,8 +484,8 @@ function playTone(duration = 100) {
 
 function ensureAudioContext() {
     if (audioContext) {
-        if (audioContext.state === 'suspended') {
-            audioContext.resume?.();
+        if (audioContext.state === 'suspended' && typeof audioContext.resume === 'function') {
+            audioContext.resume();
         }
         return audioContext;
     }
