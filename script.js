@@ -41,6 +41,8 @@ const STORAGE_KEYS = {
     progress: 'morseProgress'
 };
 
+const DASH_THRESHOLD_MS = 200;
+
 let settings = {
     speed: 300,
     frequency: 600,
@@ -347,7 +349,7 @@ function setupPracticePad() {
         if (!isPressed) return;
 
         const pressDuration = Date.now() - pressStart;
-        const symbol = pressDuration > 200 ? '−' : '·';
+        const symbol = pressDuration > DASH_THRESHOLD_MS ? '−' : '·';
         userAnswer += symbol;
         isPressed = false;
         pad.classList.remove('active');
