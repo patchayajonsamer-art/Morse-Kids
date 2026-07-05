@@ -465,18 +465,18 @@ function playTone(duration = 100) {
         const context = ensureAudioContext();
         if (!context) return;
 
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const oscillator = context.createOscillator();
+        const gainNode = context.createGain();
 
         oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        gainNode.connect(context.destination);
 
         oscillator.frequency.value = settings.frequency;
-        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+        gainNode.gain.setValueAtTime(0.2, context.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + duration / 1000);
 
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + duration / 1000);
+        oscillator.start(context.currentTime);
+        oscillator.stop(context.currentTime + duration / 1000);
     } catch (error) {
         console.log('Audio not supported', error);
     }
