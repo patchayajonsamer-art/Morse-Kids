@@ -1,396 +1,220 @@
-// Settings
-let settings = {
-    speed: 300,
-    frequency: 600,
-    vibration: true,
-    sound: true
-};
-
-// State
-let currentCharacter = null;
-let currentCategory = 'thai-consonants';
-let userAnswer = '';
-let score = 0;
-let totalQuestions = 0;
-let currentTestCategory = 'thai-consonants';
+// Global State
+let currentUser = null;
+let currentChapter = 0;
+let currentQuestion = 0;
+let testAnswers = [];
+let testQuestions = [];
+let allCharacters = [];
+let chapterCharacters = {};
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    initializeApp();
+window.addEventListener('DOMContentLoaded', () => {
+    loadMorseData();
+    goToPage('welcome');
 });
 
-function initializeApp() {
-    setupEventListeners();
-    loadSettings();
-    setupTouchPads();
-    loadCategoryLetters('thai-consonants', 'learn');
-    selectFirstCharacter();
-}
-
-// Navigation
-function setupEventListeners() {
-    // Nav buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            switchSection(e.target.dataset.section);
-        });
-    });
-
-    // Category buttons for Learn
-    document.querySelectorAll('#learn .category-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            switchCategory(e.target.dataset.category, 'learn');
-        });
-    });
-
-    // Category buttons for Test
-    document.querySelectorAll('#test .category-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            switchCategory(e.target.dataset.category, 'test');
-        });
-    });
-
-    // Check answer button
-    document.getElementById('checkBtn').addEventListener('click', checkAnswer);
-
-    // Clear button
-    document.getElementById('clearBtn').addEventListener('click', clearAnswer);
-
-    // Settings sliders
-    document.getElementById('speedSlider').addEventListener('input', (e) => {
-        settings.speed = parseInt(e.target.value);
-        document.getElementById('speedValue').textContent = settings.speed + 'ms';
-        saveSettings();
-    });
-
-    document.getElementById('frequencySlider').addEventListener('input', (e) => {
-        settings.frequency = parseInt(e.target.value);
-        document.getElementById('frequencyValue').textContent = settings.frequency + 'Hz';
-        saveSettings();
-    });
-
-    document.getElementById('vibrationToggle').addEventListener('change', (e) => {
-        settings.vibration = e.target.checked;
-        saveSettings();
-    });
-
-    document.getElementById('soundToggle').addEventListener('change', (e) => {
-        settings.sound = e.target.checked;
-        saveSettings();
-    });
-}
-
-function switchSection(section) {
-    // Hide all sections
-    document.querySelectorAll('.section').forEach(s => {
-        s.classList.remove('active');
-    });
-
-    // Show selected section
-    document.getElementById(section).classList.add('active');
-
-    // Update nav buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
-
-    // Initialize section
-    if (section === 'test') {
-        generateQuestion();
+function loadMorseData() {
+    if (typeof morseDataArray !== 'undefined') {
+        allCharacters = morseDataArray;
+        prepareChapters();
     }
 }
 
-function switchCategory(category, section) {
-    loadCategoryLetters(category, section);
-
-    if (section === 'learn') {
-        currentCategory = category;
-        selectFirstCharacter();
-    } else if (section === 'test') {
-        currentTestCategory = category;
-        generateQuestion();
-    }
-
-    // Update category buttons
-    const buttons = section === 'learn' 
-        ? document.querySelectorAll('#learn .category-btn')
-        : document.querySelectorAll('#test .category-btn');
-
-    buttons.forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
+function prepareChapters() {
+    chapterCharacters = {
+        0: allCharacters.slice(0, 6),     // ก-ฮ
+        1: allCharacters.slice(6, 13).concat(allCharacters.slice(0, 6)),     // ค-ญ + ก-ฮ
+        2: allCharacters.slice(13, 19).concat(allCharacters.slice(0, 13)),   // ฎ-ณ + ก-ญ
+        3: allCharacters.slice(19, 25).concat(allCharacters.slice(0, 19)),   // ด-ฬ + ก-ณ
+        4: allCharacters.slice(25, 31).concat(allCharacters.slice(0, 25)),   // บ-ฟ + ก-ฬ
+        5: allCharacters.slice(31, 36).concat(allCharacters.slice(0, 31)),   // ภ-ษ + ก-ฟ
+        6: allCharacters.slice(36, 44).concat(allCharacters.slice(0, 36)),   // ซ-อ + ก-ษ
+        7: allCharacters.slice(44, 50).concat(allCharacters.slice(0, 44)),   // สระยาว + ก-อ
+        8: allCharacters.slice(50, 56).concat(allCharacters.slice(0, 50))    // สระสั้น + ก-สระยาว
+    };
 }
 
-function loadCategoryLetters(category, section) {
-    const grid = section === 'learn' 
-        ? document.getElementById('letterGrid')
-        : null;
+function goToPage(pageName) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageName).classList.add('active');
 
-    if (!grid) return;
-
-    grid.innerHTML = '';
-    const data = morseData[category] || [];
-
-    data.forEach(item => {
-        const btn = document.createElement('button');
-        btn.className = 'letter-btn';
-        btn.textContent = item.char;
-        btn.addEventListener('click', () => {
-            selectLetter(item.char);
-        });
-        grid.appendChild(btn);
-    });
-}
-
-// Learn Section
-function selectLetter(char) {
-    currentCharacter = char;
-    const morse = getMorseCode(char);
-
-    // Update UI
-    document.querySelectorAll('.letter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target?.classList.add('active');
-
-    // Display
-    document.getElementById('selectedCharacter').textContent = char;
-    document.getElementById('morseCode').textContent = morse;
-
-    // Play
-    playMorse(morse);
-}
-
-function selectFirstCharacter() {
-    const firstBtn = document.querySelector('#learn .letter-btn');
-    if (firstBtn) {
-        selectLetter(firstBtn.textContent);
-        firstBtn.classList.add('active');
+    if (pageName === 'learn') {
+        renderChapters();
+    } else if (pageName === 'home') {
+        if (!currentUser && sessionStorage.getItem('guestMode') !== 'true') {
+            goToPage('login');
+        }
     }
 }
 
-// Touch Pad - Learn
-function setupTouchPads() {
-    const learnPad = document.querySelector('.learn-pad');
-    const testPad = document.querySelector('.test-pad');
+function handleLogin() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    // Learn pad - Mouse
-    learnPad.addEventListener('mousedown', () => {
-        if (currentCharacter) {
-            learnPad.classList.add('active');
-            playMorse(getMorseCode(currentCharacter));
-        }
-    });
-
-    learnPad.addEventListener('mouseup', () => {
-        learnPad.classList.remove('active');
-    });
-
-    learnPad.addEventListener('mouseleave', () => {
-        learnPad.classList.remove('active');
-    });
-
-    // Learn pad - Touch
-    learnPad.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        if (currentCharacter) {
-            learnPad.classList.add('active');
-            playMorse(getMorseCode(currentCharacter));
-        }
-    });
-
-    learnPad.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        learnPad.classList.remove('active');
-    });
-
-    // Test pad - Handle press timing
-    let pressStart = 0;
-    let isPressed = false;
-
-    testPad.addEventListener('mousedown', () => {
-        pressStart = Date.now();
-        isPressed = true;
-        testPad.classList.add('active');
-        playTone();
-    });
-
-    testPad.addEventListener('mouseup', () => {
-        if (isPressed) {
-            const pressDuration = Date.now() - pressStart;
-            const symbol = pressDuration > 200 ? '−' : '·';
-            userAnswer += symbol;
-            document.getElementById('userAnswer').textContent = userAnswer || '−−−';
-            isPressed = false;
-            testPad.classList.remove('active');
-        }
-    });
-
-    testPad.addEventListener('mouseleave', () => {
-        if (isPressed) {
-            const pressDuration = Date.now() - pressStart;
-            const symbol = pressDuration > 200 ? '−' : '·';
-            userAnswer += symbol;
-            document.getElementById('userAnswer').textContent = userAnswer || '−−−';
-            isPressed = false;
-            testPad.classList.remove('active');
-        }
-    });
-
-    // Test pad - Touch events
-    testPad.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        pressStart = Date.now();
-        isPressed = true;
-        testPad.classList.add('active');
-        playTone();
-    });
-
-    testPad.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        if (isPressed) {
-            const pressDuration = Date.now() - pressStart;
-            const symbol = pressDuration > 200 ? '−' : '·';
-            userAnswer += symbol;
-            document.getElementById('userAnswer').textContent = userAnswer || '−−−';
-            isPressed = false;
-            testPad.classList.remove('active');
-        }
-    });
-}
-
-// Test Section
-function generateQuestion() {
-    const data = morseData[currentTestCategory] || [];
-    if (data.length === 0) return;
-
-    const randomIndex = Math.floor(Math.random() * data.length);
-    currentCharacter = data[randomIndex].char;
-
-    userAnswer = '';
-    totalQuestions++;
-
-    document.getElementById('questionCharacter').textContent = currentCharacter;
-    document.getElementById('questionMorse').textContent = getMorseCode(currentCharacter);
-    document.getElementById('userAnswer').textContent = '−−−';
-    document.getElementById('totalQuestions').textContent = totalQuestions;
-    document.getElementById('score').textContent = score;
-    document.getElementById('resultIcon').textContent = '';
-
-    // Auto-play the question
-    playMorse(getMorseCode(currentCharacter));
-}
-
-function checkAnswer() {
-    const correctMorse = getMorseCode(currentCharacter).replace(/\s/g, '');
-    const userMorse = userAnswer.replace(/\s/g, '');
-
-    const resultIcon = document.getElementById('resultIcon');
-
-    if (correctMorse === userMorse) {
-        score++;
-        resultIcon.textContent = '✅';
+    if (username && password) {
+        currentUser = username;
+        sessionStorage.setItem('currentUser', username);
+        sessionStorage.removeItem('guestMode');
+        goToPage('home');
     } else {
-        resultIcon.textContent = '❌';
+        alert('Please fill in all fields');
     }
-
-    document.getElementById('score').textContent = score;
-
-    // Next question after delay
-    setTimeout(() => {
-        generateQuestion();
-    }, 1500);
 }
 
-function clearAnswer() {
-    userAnswer = '';
-    document.getElementById('userAnswer').textContent = '−−−';
-    document.getElementById('resultIcon').textContent = '';
+function handleGuestLogin() {
+    currentUser = 'Guest';
+    sessionStorage.setItem('guestMode', 'true');
+    goToPage('home');
 }
 
-// Audio Functions
-function playMorse(morse) {
-    if (!settings.sound && !settings.vibration) return;
+function handleLogout() {
+    currentUser = null;
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('guestMode');
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    goToPage('login');
+}
 
-    const dots = morse.split(' ');
-    let delay = 0;
+function renderChapters() {
+    const list = document.getElementById('chapters-list');
+    list.innerHTML = '';
 
-    dots.forEach((symbol) => {
-        if (symbol === '·') {
-            setTimeout(() => {
-                playDot();
-            }, delay);
-            delay += settings.speed;
-        } else if (symbol === '−') {
-            setTimeout(() => {
-                playDash();
-            }, delay);
-            delay += settings.speed * 3;
-        }
-        delay += settings.speed;
+    const chapterNames = [
+        'สำนัก 1: ก - ฮ (6 ตัว)',
+        'สำนัก 2: ค - ญ (7 ตัว)',
+        'สำนัก 3: ฎ - ณ (6 ตัว)',
+        'สำนัก 4: ด - ฬ (6 ตัว)',
+        'สำนัก 5: บ - ฟ (6 ตัว)',
+        'สำนัก 6: ภ - ษ (5 ตัว)',
+        'สำนัก 7: ซ - อ (8 ตัว)',
+        'สำนัก 8: สระยาว (6 ตัว)',
+        'สำนัก 9: สระสั้น (6 ตัว)'
+    ];
+
+    chapterNames.forEach((name, index) => {
+        const card = document.createElement('div');
+        card.className = 'chapter-card';
+        card.innerHTML = `
+            <div style="display: flex; align-items: center; flex: 1;">
+                <div class="chapter-number">${index + 1}</div>
+                <div class="chapter-info">
+                    <h3>${name}</h3>
+                </div>
+            </div>
+            <div class="chapter-stars">⭐⭐⭐</div>
+        `;
+        card.onclick = () => startTest(index);
+        list.appendChild(card);
     });
 }
 
-function playDot() {
-    if (settings.sound) {
-        playTone(settings.speed);
+function startTest(chapterIndex) {
+    currentChapter = chapterIndex;
+    currentQuestion = 0;
+    testAnswers = [];
+    testQuestions = [];
+
+    const characters = chapterCharacters[chapterIndex] || [];
+    const selectedCharacters = characters.sort(() => 0.5 - Math.random()).slice(0, 6);
+
+    testQuestions = selectedCharacters.map(char => ({
+        character: char.character,
+        morse: char.morse,
+        options: getRandomOptions(char.character, selectedCharacters, 4)
+    }));
+
+    goToPage('test');
+    showTestQuestion();
+}
+
+function getRandomOptions(correct, available, count) {
+    let options = [correct];
+    const others = available.filter(c => c.character !== correct);
+    others.sort(() => 0.5 - Math.random());
+    for (let i = 0; i < count - 1 && i < others.length; i++) {
+        options.push(others[i].character);
     }
-    if (settings.vibration) {
-        vibrate(settings.speed);
+    return options.sort(() => 0.5 - Math.random());
+}
+
+function showTestQuestion() {
+    if (currentQuestion >= testQuestions.length) {
+        showTestResults();
+        return;
+    }
+
+    const question = testQuestions[currentQuestion];
+    const chapterNames = ['บท 1', 'บท 2', 'บท 3', 'บท 4', 'บท 5', 'บท 6', 'บท 7', 'บท 8', 'บท 9'];
+
+    document.getElementById('test-chapter').textContent = `${chapterNames[currentChapter]} ข้อที่ ${currentQuestion + 1}/${testQuestions.length}`;
+    document.getElementById('progress-text').textContent = `ข้อ ${currentQuestion + 1} จาก ${testQuestions.length}`;
+    document.getElementById('progress-fill').style.width = ((currentQuestion / testQuestions.length) * 100) + '%';
+
+    const morseDisplay = document.getElementById('test-morse');
+    morseDisplay.textContent = question.morse.split('').join(' ');
+
+    const optionsContainer = document.getElementById('test-options');
+    optionsContainer.innerHTML = '';
+    question.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = option;
+        btn.onclick = () => selectOption(option, btn);
+        optionsContainer.appendChild(btn);
+    });
+
+    document.getElementById('test-submit').textContent = '✅ ตรวจสอบ';
+}
+
+function selectOption(option, element) {
+    document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+    element.classList.add('selected');
+    testAnswers[currentQuestion] = option;
+}
+
+function submitTestAnswer() {
+    if (testAnswers[currentQuestion] === undefined) {
+        alert('Please select an option');
+        return;
+    }
+    currentQuestion++;
+    showTestQuestion();
+}
+
+function showTestResults() {
+    let correct = 0;
+    testQuestions.forEach((q, i) => {
+        if (testAnswers[i] === q.character) correct++;
+    });
+
+    const percentage = Math.round((correct / testQuestions.length) * 100);
+    let stars = '';
+    if (percentage >= 80) stars = '⭐⭐⭐';
+    else if (percentage >= 60) stars = '⭐⭐';
+    else stars = '⭐';
+
+    document.getElementById('score-text').textContent = `${correct}/${testQuestions.length}`;
+    document.getElementById('stars').textContent = stars;
+    document.getElementById('correct-count').textContent = correct;
+    document.getElementById('wrong-count').textContent = testQuestions.length - correct;
+
+    goToPage('results');
+}
+
+function retakeTest() {
+    startTest(currentChapter);
+}
+
+function goToNextChapter() {
+    if (currentChapter < 8) {
+        startTest(currentChapter + 1);
+    } else {
+        alert('Congratulations! You completed all chapters!');
+        goToPage('learn');
     }
 }
 
-function playDash() {
-    if (settings.sound) {
-        playTone(settings.speed * 3);
-    }
-    if (settings.vibration) {
-        vibrate(settings.speed * 3);
-    }
-}
-
-function playTone(duration = 100) {
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.value = settings.frequency;
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
-
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + duration / 1000);
-    } catch (e) {
-        console.log('Audio not supported');
-    }
-}
-
-function vibrate(duration) {
-    if (navigator.vibrate) {
-        navigator.vibrate(duration);
-    }
-}
-
-// Settings
-function saveSettings() {
-    localStorage.setItem('morseSettings', JSON.stringify(settings));
-}
-
-function loadSettings() {
-    const saved = localStorage.getItem('morseSettings');
-    if (saved) {
-        settings = JSON.parse(saved);
-        document.getElementById('speedSlider').value = settings.speed;
-        document.getElementById('speedValue').textContent = settings.speed + 'ms';
-        document.getElementById('frequencySlider').value = settings.frequency;
-        document.getElementById('frequencyValue').textContent = settings.frequency + 'Hz';
-        document.getElementById('vibrationToggle').checked = settings.vibration;
-        document.getElementById('soundToggle').checked = settings.sound;
-    }
+function startPracticeMode(mode) {
+    alert('Practice mode: ' + mode + ' (Coming soon!)');
 }
